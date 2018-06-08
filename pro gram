@@ -1,0 +1,48 @@
+import csv
+
+#주당 카지노의 개수
+caslist=[]
+file = open('casinos.csv')
+f = csv.reader(file)
+data = []
+for i in f :
+    data.append(i)
+
+for row in data[2:]:
+    if [row[4], 0] not in caslist:
+        caslist.append([row[4], 0])
+        
+        
+for row in data:
+    for a in caslist:
+        if a[0] == row[4]:
+            a[1] += 1
+
+print(caslist, '\n')
+
+#주당 범죄율 (per 100,000) - 2016년도 데이터
+statecrime = []
+
+file2 = open('crime in united states 2016-cleansed.csv')
+f2 = csv.reader(file2)
+data2 = []
+for i in f2 :
+    data2.append(i)
+
+for row in range(len(data2)):
+    if data2[row][0] != '':
+        tempcrime = 0
+        for i in range(2, 12):
+            tempcrime += float(data2[row+1][2*i])
+        if (tempcrime*100//1)%10 == 9:
+            tempcrime += 0.1
+        tempcrime = (tempcrime*10 // 1)/10
+
+        statecrime.append([data2[row][0], tempcrime])
+
+print(statecrime)
+
+
+for i in len(caslist):
+    for j in len(statecrime):
+        
