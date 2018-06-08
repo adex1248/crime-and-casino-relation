@@ -1,6 +1,8 @@
 import csv
+import matplotlib.pyplot as plt
+% matplotlib inline
 
-#주당 카지노의 개수
+###주당 카지노의 개수
 caslist=[]
 file = open('casinos.csv')
 f = csv.reader(file)
@@ -18,9 +20,9 @@ for row in data:
         if a[0] == row[4]:
             a[1] += 1
 
-print(caslist, '\n')
+#print(caslist, '\n')
 
-#주당 범죄율 (per 100,000) - 2016년도 데이터
+###주당 범죄율 (per 100,000) - 2016년도 데이터
 statecrime = []
 
 file2 = open('crime in united states 2016-cleansed.csv')
@@ -40,9 +42,29 @@ for row in range(len(data2)):
 
         statecrime.append([data2[row][0], tempcrime])
 
-print(statecrime)
+statecrime.sort()
+#print(statecrime, '\n')
 
 
-for i in len(caslist):
-    for j in len(statecrime):
-        
+###카지노수 0인 주 더하기
+for i in statecrime:
+    temp = 0
+    for j in caslist:
+        if i[0] == j[0]:
+            temp = 1
+            break
+    if temp == 0:
+        caslist.append([i[0], 0])
+caslist.sort()
+
+
+###수치화
+casino = []
+crime = []
+for i in statecrime:
+    crime.append(i[1])
+for i in caslist:
+    casino. append(i[1])
+
+plt.scatter(crime, casino)
+plt.show()
