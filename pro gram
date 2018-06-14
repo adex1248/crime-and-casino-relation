@@ -20,7 +20,6 @@ for row in data:
         if a[0] == row[4]:
             a[1] += 1
 
-#print(caslist, '\n')
 
 ###주당 범죄율 (per 100,000) - 2016년도 데이터
 statecrime = []
@@ -57,6 +56,7 @@ for i in statecrime:
         caslist.append([i[0], 0])
 caslist.sort()
 
+#print(caslist, '\n')
 
 ###수치화
 casino = []
@@ -67,4 +67,35 @@ for i in caslist:
     casino. append(i[1])
 
 plt.scatter(crime, casino)
+plt.show()
+
+#범죄율 최대, 카지노수 최대, 2번째 데이터값들 제거하고 다시 그리기
+noa = []
+for i in range(len(statecrime)):
+    noa.append([statecrime[i][0], statecrime[i][1], caslist[i][1]])
+#print(noa)
+
+highcr = [0, 0, 0]
+highcas = [0, 0, 0]
+seccas = [0, 0, 0]
+for i in noa:
+    if i[1] > highcr[1]:
+        highcr = i
+    
+    if i[2] > highcas[2]:
+        seccas = highcas
+        highcas = i
+    elif i[2] > seccas[2]:
+        seccas = i
+
+noa.remove(highcr)
+noa.remove(highcas)
+noa.remove(seccas)
+
+casino2 = []
+crime2 = []
+for i in noa:
+    casino2.append(i[-1])
+    crime2.append(i[1])
+plt.scatter(crime2, casino2)
 plt.show()
